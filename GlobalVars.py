@@ -1,0 +1,1 @@
+defaultFont = ("Comic Sans MS", 15)
