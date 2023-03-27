@@ -19,13 +19,13 @@ def chooseRoom(AgrRoot:tk.Tk):
 
     def loadTest():
         try:
-            Start(root, selectTest.curselection()[0], selectTest)
-            errorText.destroy()
-            goButton.destroy()
-            
+            Start(root, selectTest.curselection()[0], selectTest)  
         except IndexError:
             errorText.config(text=u"Вы не выбрали тест!")
 
+        errorText.destroy()
+        goButton.destroy()
+        
     for i in range(len(temp)):
         names.append(temp[i]['name'])
 
