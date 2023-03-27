@@ -9,7 +9,7 @@
                 "right_answer":"That's how!"
             },
             {
-                "question":"Which one?",
+                "question_text":"Which one?",
                 "answer_type":"options",
                 "answerOptions":[
                     "This one",
