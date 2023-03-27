@@ -19,6 +19,9 @@ curTaskIndex:int = 0
 answerType:str = ""
 right_answer = None
 right_answer_index:int
+answers:list
+back:tk.Button
+
 
 answers:list = []
 def curTaskUpdate():
@@ -27,18 +30,24 @@ def curTaskUpdate():
 
 
 def AnswerOne():
+    global answers
+    answers.append(right_answer_index == 0)
     if (right_answer_index == 0):
         print("right")
     else:
         print("wrong")
 
 def AnswerTwo():
+    global answers
+    answers.append(right_answer_index == 1)
     if (right_answer_index == 1):
         print("right")
     else:
         print("wrong")
     
 def AnswerThree():
+    global answers
+    answers.append(right_answer_index == 2)
     if (right_answer_index == 2):
         print("right")
     else:
@@ -61,7 +70,9 @@ def UpdateData():
 
 def showOptions():
     global options
+    global doneButton
     amount:int = len(curTask['answerOptions'])
+    doneButton.destroy()
     match amount:
         case 2:
             options.append(tk.Button(text=curTask["answerOptions"][0], font=default_font, command=AnswerOne))
@@ -87,9 +98,12 @@ def showWrite():
 def showOptionsOrWrite():
     global options
     global write
+    global doneButton
     if (answerType == "write"):
         print("write")
         showWrite()
+        doneButton = tk.Button(font=default_font, text=u"Готово", command=nextTask)
+        doneButton.place(x=156, y=350)
         try:
             options[0].destroy()
             options[1].destroy()
@@ -104,8 +118,23 @@ def showOptionsOrWrite():
         showOptions()
 
 def nextTask():
+    global answers
+    # answers.append(func.getTextField(write) == curTask['right_answer'])
     global curTaskIndex
+    global back
     curTaskIndex += 1
+    back['state'] = 'normal'
+    UpdateData()
+    showOptionsOrWrite()
+
+def previousTask():
+    global curTaskIndex
+    curTaskIndex -= 1
+    if (curTaskIndex < 0):
+        back['state'] = 'disabled'
+        return
+    else:
+        back['state'] = 'normal'
     UpdateData()
     showOptionsOrWrite()
 
@@ -120,6 +149,7 @@ def Start(AgrRoot:tk.Tk, AgrIndex:int, objToDelete):
     global curTaskIndex
 
     global doneButton
+    global back
 
     global quest_lable
 
@@ -136,6 +166,11 @@ def Start(AgrRoot:tk.Tk, AgrIndex:int, objToDelete):
     quest_lable = tk.Label(text="null", font=("Comic Sans MS", 30))
     quest_lable.place(x=156, y=30)
 
+    back = tk.Button(font=default_font, text=u"Назад", command=previousTask)
+    back.place(x=10, y=425, width=120, height=60)
+
+    if (curTaskIndex == 0):
+        back['state'] = 'disabled'
 
     UpdateData()
     showOptionsOrWrite()
