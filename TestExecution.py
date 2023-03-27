@@ -80,10 +80,6 @@ def UpdateData():
     global answerType
     curTaskUpdate()
     answerType = curTask["answer_type"]
-    try:
-        right_answer = curTask["right_answer"]
-    except KeyError:
-        
     quest_lable.config(text=curTask['question_text'])
 
 
