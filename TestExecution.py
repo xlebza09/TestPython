@@ -71,19 +71,22 @@ def UpdateData():
 def showOptions():
     global options
     global doneButton
+    options.append(tk.Button)
+    options.append(tk.Button)
+    options.append(tk.Button)
     amount:int = len(curTask['answerOptions'])
     doneButton.destroy()
     match amount:
         case 2:
-            options.append(tk.Button(text=curTask["answerOptions"][0], font=default_font, command=AnswerOne))
-            options.append(tk.Button(text=curTask["answerOptions"][1], font=default_font, command=AnswerTwo))
+            options[0] = tk.Button(root, text=curTask["answerOptions"][0], font=default_font, command=AnswerOne)
+            options[1] = tk.Button(root, text=curTask["answerOptions"][1], font=default_font, command=AnswerTwo)
             options[0].place(x=0, y=200, width=100,height=50)
             options[1].place(x=100, y=200, width=100,height=50)
 
         case 3:
-            options.append(tk.Button(text=curTask["answerOptions"][0], font=default_font, command=AnswerOne))
-            options.append(tk.Button(text=curTask["answerOptions"][1], font=default_font, command=AnswerTwo))
-            options.append(tk.Button(text=curTask["answerOptions"][2], font=default_font, command=AnswerThree))
+            options[0] = tk.Button(root, text=curTask["answerOptions"][0], font=default_font, command=AnswerOne)
+            options[1] = tk.Button(root, text=curTask["answerOptions"][1], font=default_font, command=AnswerTwo)
+            options[2] = tk.Button(root, text=curTask["answerOptions"][2], font=default_font, command=AnswerThree)
             options[0].place(x=0, y=200, width=100,height=50)
             options[1].place(x=100, y=200, width=100,height=50)
             options[2].place(x=200, y=200, width=100,height=50)
@@ -92,7 +95,7 @@ def showOptions():
 def showWrite():
     global write
     write = tk.Text(font=default_font, width=200, height=100)
-    write.place(x=100, y=200, width=200, height=100)
+    write.place(x=185, y=200, width=200, height=100)
     print("but it does")
 
 def showOptionsOrWrite():
@@ -103,7 +106,7 @@ def showOptionsOrWrite():
         print("write")
         showWrite()
         doneButton = tk.Button(font=default_font, text=u"Готово", command=nextTask)
-        doneButton.place(x=156, y=350)
+        doneButton.place(x=250, y=350)
         try:
             options[0].destroy()
             options[1].destroy()
@@ -156,18 +159,20 @@ def Start(AgrRoot:tk.Tk, AgrIndex:int, objToDelete):
     root = AgrRoot
     index = AgrIndex
 
+    root.geometry("600x400")
+
     testInfo = func.readJsonFile()[index]
 
     curTask = testInfo["questions"][curTaskIndex]
 
-    doneButton = tk.Button(font=default_font, text=u"Готово", command=nextTask)
-    doneButton.place(x=156, y=350)
+    # doneButton = tk.Button(font=default_font, text=u"Готово", command=nextTask)
+    # doneButton.place(x=300, y=350)
 
     quest_lable = tk.Label(text="null", font=("Comic Sans MS", 30))
-    quest_lable.place(x=156, y=30)
+    quest_lable.place(x=10, y=30)
 
     back = tk.Button(font=default_font, text=u"Назад", command=previousTask)
-    back.place(x=10, y=425, width=120, height=60)
+    back.place(x=10, y=325, width=120, height=60)
 
     if (curTaskIndex == 0):
         back['state'] = 'disabled'

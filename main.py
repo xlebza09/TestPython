@@ -6,7 +6,7 @@ root.title(u"Программа Тестов")
 root.geometry("400x500")
 root['bg'] = "#00deff"
 
-root.resizable = False
+root.resizable(False, False)
 hello = "привет"
 print(u"".join([hello]))
 
