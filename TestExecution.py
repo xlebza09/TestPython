@@ -32,26 +32,22 @@ def curTaskUpdate():
 def AnswerOne():
     global answers
     answers.append(right_answer_index == 0)
-    if (right_answer_index == 0):
-        print("right")
-    else:
-        print("wrong")
+    nextTask()
 
 def AnswerTwo():
     global answers
     answers.append(right_answer_index == 1)
-    if (right_answer_index == 1):
-        print("right")
-    else:
-        print("wrong")
+    nextTask()
     
 def AnswerThree():
     global answers
     answers.append(right_answer_index == 2)
-    if (right_answer_index == 2):
-        print("right")
-    else:
-        print("wrong")
+    nextTask()
+
+def AnswerFour():
+    global answers
+    answers.append(right_answer_index == 3)
+    nextTask()
 
 
 def UpdateData():
@@ -65,7 +61,8 @@ def UpdateData():
     if (answerType == "write"):
         right_answer = curTask["right_answer"]
     else:
-        right_answer_index = curTask["right_answer_index"]
+        print(curTask['right_answer_index'])
+        right_answer_index = curTask['right_answer_index']
     quest_lable.config(text=curTask['question_text'])
 
 def showOptions():
@@ -74,29 +71,47 @@ def showOptions():
     options.append(tk.Button)
     options.append(tk.Button)
     options.append(tk.Button)
+    options.append(tk.Button)
     amount:int = len(curTask['answerOptions'])
-    doneButton.destroy()
+    try:
+        doneButton.destroy()
+    except NameError:
+        pass
+    
     match amount:
         case 2:
             options[0] = tk.Button(root, text=curTask["answerOptions"][0], font=default_font, command=AnswerOne)
             options[1] = tk.Button(root, text=curTask["answerOptions"][1], font=default_font, command=AnswerTwo)
-            options[0].place(x=0, y=200, width=100,height=50)
-            options[1].place(x=100, y=200, width=100,height=50)
+            options[0].place(x=0, y=200, width=100,height=200)
+            options[1].place(x=100, y=200, width=100,height=200)
 
         case 3:
             options[0] = tk.Button(root, text=curTask["answerOptions"][0], font=default_font, command=AnswerOne)
             options[1] = tk.Button(root, text=curTask["answerOptions"][1], font=default_font, command=AnswerTwo)
             options[2] = tk.Button(root, text=curTask["answerOptions"][2], font=default_font, command=AnswerThree)
-            options[0].place(x=0, y=200, width=100,height=50)
-            options[1].place(x=100, y=200, width=100,height=50)
-            options[2].place(x=200, y=200, width=100,height=50)
+            options[0].place(x=10, y=200, width=150,height=200)
+            options[1].place(x=160, y=200, width=150,height=200)
+            options[2].place(x=310, y=200, width=125,height=200)
+
+        case 4:
+            options[0] = tk.Button(root, text=curTask["answerOptions"][0], font=default_font, command=AnswerOne, wraplength=110, justify="left")
+            options[1] = tk.Button(root, text=curTask["answerOptions"][1], font=default_font, command=AnswerTwo, wraplength=110, justify="left")
+            options[2] = tk.Button(root, text=curTask["answerOptions"][2], font=default_font, command=AnswerThree, wraplength=110, justify="left")
+            options[3] = tk.Button(root, text=curTask["answerOptions"][3], font=default_font, command=AnswerThree, wraplength=110, justify="left")
+            options[0].place(x=10, y=200, width=150,height=200)
+            options[1].place(x=160, y=200, width=150,height=200)
+            options[2].place(x=310, y=200, width=150,height=200)
+            options[3].place(x=460, y=200, width=125,height=200)
+
 
     
 def showWrite():
     global write
-    write = tk.Text(font=default_font, width=200, height=100)
-    write.place(x=185, y=200, width=200, height=100)
-    print("but it does")
+    try:
+        write.place(x=185, y=200, width=200, height=100)
+    except NameError:
+        write = tk.Text(font=default_font, width=200, height=100)
+        write.place(x=185, y=200, width=200, height=100)
 
 def showOptionsOrWrite():
     global options
@@ -110,12 +125,14 @@ def showOptionsOrWrite():
         try:
             options[0].destroy()
             options[1].destroy()
+            options[2].destroy()
+            options[3].destroy()
         except NameError:
             pass
     else:
         print("opt")
         try:
-            write.destroy()
+            write.place_forget()
         except NameError:
             pass
         showOptions()
@@ -126,18 +143,18 @@ def nextTask():
     global curTaskIndex
     global back
     curTaskIndex += 1
-    back['state'] = 'normal'
+    # back['state'] = 'normal'
     UpdateData()
     showOptionsOrWrite()
 
 def previousTask():
     global curTaskIndex
     curTaskIndex -= 1
-    if (curTaskIndex < 0):
-        back['state'] = 'disabled'
-        return
-    else:
-        back['state'] = 'normal'
+    # if (curTaskIndex < 0):
+    #     back['state'] = 'disabled'
+    #     return
+    # else:
+    #     back['state'] = 'normal'
     UpdateData()
     showOptionsOrWrite()
 
@@ -168,14 +185,14 @@ def Start(AgrRoot:tk.Tk, AgrIndex:int, objToDelete):
     # doneButton = tk.Button(font=default_font, text=u"Готово", command=nextTask)
     # doneButton.place(x=300, y=350)
 
-    quest_lable = tk.Label(text="null", font=("Comic Sans MS", 30))
+    quest_lable = tk.Label(text="null", font=("Comic Sans MS", 23), wraplength=700)
     quest_lable.place(x=10, y=30)
 
-    back = tk.Button(font=default_font, text=u"Назад", command=previousTask)
-    back.place(x=10, y=325, width=120, height=60)
+    #back = tk.Button(font=default_font, text=u"Назад", command=previousTask)
+    #back.place(x=10, y=325, width=120, height=60)
 
-    if (curTaskIndex == 0):
-        back['state'] = 'disabled'
+    # if (curTaskIndex == 0):
+    #     back['state'] = 'disabled'
 
     UpdateData()
     showOptionsOrWrite()
