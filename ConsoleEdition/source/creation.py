@@ -26,6 +26,7 @@ def CreatePupil():
 
     data.append(pupil_structure)
     func.writeJsonFile(data, "pupils.json")
+    
 
 def getDate():
     full = dt.now()

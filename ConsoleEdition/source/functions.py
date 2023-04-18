@@ -6,5 +6,5 @@ def readJsonFile(name:str) -> list:
         return load(f)
 
 def writeJsonFile(data, name:str):
-    with open (name, "w") as f:
-        dump(data, f)
+    with open (name, "w", encoding="utf-8") as f:
+        dump(data, f, ensure_ascii=False)
